@@ -591,7 +591,7 @@ if [ -z "${SKIP_CP_KERNEL_HDR}" ]; then
   find ${KERNEL_UAPI_HEADERS_DIR} \( -name ..install.cmd -o -name .install \) -exec rm '{}' +
   KERNEL_UAPI_HEADERS_TAR=${DIST_DIR}/kernel-uapi-headers.tar.gz
   echo " Copying kernel UAPI headers to ${KERNEL_UAPI_HEADERS_TAR}"
-  tar -czf ${KERNEL_UAPI_HEADERS_TAR} --directory=${KERNEL_UAPI_HEADERS_DIR} usr/
+  tar --sort=name --mtime="@0" --owner=0 --group=0 --numeric-owner -czf ${KERNEL_UAPI_HEADERS_TAR} --directory=${KERNEL_UAPI_HEADERS_DIR} usr/
 fi
 
 if [ -z "${SKIP_CP_KERNEL_HDR}" ] ; then
@@ -600,7 +600,7 @@ if [ -z "${SKIP_CP_KERNEL_HDR}" ] ; then
   echo " Copying kernel headers to ${KERNEL_HEADERS_TAR}"
   pushd $ROOT_DIR/$KERNEL_DIR
     find arch include $OUT_DIR -name *.h -print0               \
-            | tar -czf $KERNEL_HEADERS_TAR                     \
+            | tar --sort=name --mtime="@0" --owner=0 --group=0 --numeric-owner -czf $KERNEL_HEADERS_TAR                     \
               --absolute-names                                 \
               --dereference                                    \
               --transform "s,.*$OUT_DIR,,"                     \
